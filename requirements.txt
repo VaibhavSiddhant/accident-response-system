@@ -1,0 +1,11 @@
+torch
+torchvision
+scikit-learn
+pandas
+numpy
+fastapi
+uvicorn
+osmnx
+networkx
+python-multipart
+ultralytics

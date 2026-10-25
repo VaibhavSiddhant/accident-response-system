@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_d270f48c2941ab5813921922fae79927 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_d270f48c2941ab5813921922fae79927" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_d270f48c2941ab5813921922fae79927 = L.map(
+                "map_d270f48c2941ab5813921922fae79927",
+                {
+                    center: [12.943616, 77.567923],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_ed725b04c78ece9e98ed957981d1ff2b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_ed725b04c78ece9e98ed957981d1ff2b.addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+            var marker_1da5b818465181a6259a691a5d408607 = L.marker(
+                [12.943616, 77.567923],
+                {
+}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+            var icon_eb7ee8c0dfe56b24cf2d2d206cb4ec17 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "exclamation-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_68a5a2902ffdac71ee841d6c8b99da34 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6b5132b2a77dccf98c95a17f6731436d = $(`<div id="html_6b5132b2a77dccf98c95a17f6731436d" style="width: 100.0%; height: 100.0%;">ACCIDENT<br>Risk: 0.50</div>`)[0];
+                popup_68a5a2902ffdac71ee841d6c8b99da34.setContent(html_6b5132b2a77dccf98c95a17f6731436d);
+            
+        
+
+        marker_1da5b818465181a6259a691a5d408607.bindPopup(popup_68a5a2902ffdac71ee841d6c8b99da34)
+        ;
+
+        
+    
+    
+                marker_1da5b818465181a6259a691a5d408607.setIcon(icon_eb7ee8c0dfe56b24cf2d2d206cb4ec17);
+            
+    
+            var marker_dabba9ebf4f1cbeb4ab1a256fcf7451f = L.marker(
+                [12.945871, 77.567519],
+                {
+}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+            var icon_c1e687455a3203aea2c3b885716b949a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_eab63c25794841b08d2ccd299380447b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_229aab313372911b3d52ba8bfd545f27 = $(`<div id="html_229aab313372911b3d52ba8bfd545f27" style="width: 100.0%; height: 100.0%;">Shekar Hospital<br>ETA: 1.1 min</div>`)[0];
+                popup_eab63c25794841b08d2ccd299380447b.setContent(html_229aab313372911b3d52ba8bfd545f27);
+            
+        
+
+        marker_dabba9ebf4f1cbeb4ab1a256fcf7451f.bindPopup(popup_eab63c25794841b08d2ccd299380447b)
+        ;
+
+        
+    
+    
+                marker_dabba9ebf4f1cbeb4ab1a256fcf7451f.setIcon(icon_c1e687455a3203aea2c3b885716b949a);
+            
+    
+            var poly_line_de4c297f0ae50464cdfa64f37281e549 = L.polyline(
+                [[12.946031, 77.5677418], [12.9460348, 77.5678345], [12.9449694, 77.5678598], [12.9436325, 77.5678527]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_01fc2d7f9ea8ee7745b02a40038d3e8a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_41c7270777152b53f324d2df3d043684 = $(`<div id="html_41c7270777152b53f324d2df3d043684" style="width: 100.0%; height: 100.0%;">1.1 min | 0.28 km</div>`)[0];
+                popup_01fc2d7f9ea8ee7745b02a40038d3e8a.setContent(html_41c7270777152b53f324d2df3d043684);
+            
+        
+
+        poly_line_de4c297f0ae50464cdfa64f37281e549.bindPopup(popup_01fc2d7f9ea8ee7745b02a40038d3e8a)
+        ;
+
+        
+    
+    
+            var circle_marker_c9c87552fddd8ac91dff4b102b9a7f68 = L.circleMarker(
+                [12.9175, 77.6231],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_44491b36cbe1d3331cc2b41333e169a0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e3bf3f1bf9fb07197b1738165d459c05 = $(`<div id="html_e3bf3f1bf9fb07197b1738165d459c05" style="width: 100.0%; height: 100.0%;">Black Spot: Silk Board Junction (0.91)</div>`)[0];
+                popup_44491b36cbe1d3331cc2b41333e169a0.setContent(html_e3bf3f1bf9fb07197b1738165d459c05);
+            
+        
+
+        circle_marker_c9c87552fddd8ac91dff4b102b9a7f68.bindPopup(popup_44491b36cbe1d3331cc2b41333e169a0)
+        ;
+
+        
+    
+    
+            var circle_marker_0057d12ec1358714366cbea1549d1261 = L.circleMarker(
+                [13.035, 77.597],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_a74b2b5b6b157d3ce6c08ed26cc58143 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_efceded87846c063a82592775f7e344a = $(`<div id="html_efceded87846c063a82592775f7e344a" style="width: 100.0%; height: 100.0%;">Black Spot: Hebbal Flyover (0.85)</div>`)[0];
+                popup_a74b2b5b6b157d3ce6c08ed26cc58143.setContent(html_efceded87846c063a82592775f7e344a);
+            
+        
+
+        circle_marker_0057d12ec1358714366cbea1549d1261.bindPopup(popup_a74b2b5b6b157d3ce6c08ed26cc58143)
+        ;
+
+        
+    
+    
+            var circle_marker_51009251756856376263a3610c228ddc = L.circleMarker(
+                [12.9591, 77.6971],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_3c2cf584116b25210f2e43d621a58ab3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ab3468d8fab3248771ab51cf9dbdb904 = $(`<div id="html_ab3468d8fab3248771ab51cf9dbdb904" style="width: 100.0%; height: 100.0%;">Black Spot: Marathahalli Bridge (0.83)</div>`)[0];
+                popup_3c2cf584116b25210f2e43d621a58ab3.setContent(html_ab3468d8fab3248771ab51cf9dbdb904);
+            
+        
+
+        circle_marker_51009251756856376263a3610c228ddc.bindPopup(popup_3c2cf584116b25210f2e43d621a58ab3)
+        ;
+
+        
+    
+    
+            var circle_marker_492085ce46fe818e41808c5a75169991 = L.circleMarker(
+                [13.005, 77.694],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_e4e2c8b814f84443e790041d315b4e5b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5709dc8ec10480801ee8901a0274cf57 = $(`<div id="html_5709dc8ec10480801ee8901a0274cf57" style="width: 100.0%; height: 100.0%;">Black Spot: KR Puram Junction (0.82)</div>`)[0];
+                popup_e4e2c8b814f84443e790041d315b4e5b.setContent(html_5709dc8ec10480801ee8901a0274cf57);
+            
+        
+
+        circle_marker_492085ce46fe818e41808c5a75169991.bindPopup(popup_e4e2c8b814f84443e790041d315b4e5b)
+        ;
+
+        
+    
+    
+            var circle_marker_8616339ea8408a068f82c33d22e34b87 = L.circleMarker(
+                [12.9955, 77.6609],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_84d362244bbd3a5b9dd14b5d1f55b217 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5d4e6eff55991c3384e82180f39de0b3 = $(`<div id="html_5d4e6eff55991c3384e82180f39de0b3" style="width: 100.0%; height: 100.0%;">Black Spot: Tin Factory (0.80)</div>`)[0];
+                popup_84d362244bbd3a5b9dd14b5d1f55b217.setContent(html_5d4e6eff55991c3384e82180f39de0b3);
+            
+        
+
+        circle_marker_8616339ea8408a068f82c33d22e34b87.bindPopup(popup_84d362244bbd3a5b9dd14b5d1f55b217)
+        ;
+
+        
+    
+    
+            var circle_marker_1134fbba3f9adacae8cea133d487858e = L.circleMarker(
+                [12.9236, 77.6175],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_023638b93e6a9dcb8522b876f0f34a0c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3eba0beb8e519273897744e4b37eda1e = $(`<div id="html_3eba0beb8e519273897744e4b37eda1e" style="width: 100.0%; height: 100.0%;">Black Spot: Madiwala (0.79)</div>`)[0];
+                popup_023638b93e6a9dcb8522b876f0f34a0c.setContent(html_3eba0beb8e519273897744e4b37eda1e);
+            
+        
+
+        circle_marker_1134fbba3f9adacae8cea133d487858e.bindPopup(popup_023638b93e6a9dcb8522b876f0f34a0c)
+        ;
+
+        
+    
+    
+            var circle_marker_3a2e51be3b189353886b81c58346cf2c = L.circleMarker(
+                [12.8458, 77.66],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_6ba16dd98078ce40325ed872345c8370 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_13de97832610d109b479356e161bb731 = $(`<div id="html_13de97832610d109b479356e161bb731" style="width: 100.0%; height: 100.0%;">Black Spot: Electronic City Flyover (0.78)</div>`)[0];
+                popup_6ba16dd98078ce40325ed872345c8370.setContent(html_13de97832610d109b479356e161bb731);
+            
+        
+
+        circle_marker_3a2e51be3b189353886b81c58346cf2c.bindPopup(popup_6ba16dd98078ce40325ed872345c8370)
+        ;
+
+        
+    
+    
+            var circle_marker_79942d6ce81f7b7ab95b235e7a9a7097 = L.circleMarker(
+                [12.9698, 77.75],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_ae883cd184f2ea724e9718248288f5f7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9b9167d0e54750917d6112b193ce8463 = $(`<div id="html_9b9167d0e54750917d6112b193ce8463" style="width: 100.0%; height: 100.0%;">Black Spot: Whitefield Main Road (0.76)</div>`)[0];
+                popup_ae883cd184f2ea724e9718248288f5f7.setContent(html_9b9167d0e54750917d6112b193ce8463);
+            
+        
+
+        circle_marker_79942d6ce81f7b7ab95b235e7a9a7097.bindPopup(popup_ae883cd184f2ea724e9718248288f5f7)
+        ;
+
+        
+    
+    
+            var circle_marker_96725b19add3b3a99ec53da9ca04e4d3 = L.circleMarker(
+                [12.9102, 77.6835],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_2230e94af9ad7b6e6928464d1a3c3d72 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_231758de0a00850a4c88b663b72cfbfe = $(`<div id="html_231758de0a00850a4c88b663b72cfbfe" style="width: 100.0%; height: 100.0%;">Black Spot: Sarjapur Road Junction (0.75)</div>`)[0];
+                popup_2230e94af9ad7b6e6928464d1a3c3d72.setContent(html_231758de0a00850a4c88b663b72cfbfe);
+            
+        
+
+        circle_marker_96725b19add3b3a99ec53da9ca04e4d3.bindPopup(popup_2230e94af9ad7b6e6928464d1a3c3d72)
+        ;
+
+        
+    
+    
+            var circle_marker_f44a3210c7251a3e60c26bb11f116611 = L.circleMarker(
+                [12.8933, 77.5975],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_91977e33ec62b21d9cc62439196e05a2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ddc7154d5f3a0090c441c496ada69ebd = $(`<div id="html_ddc7154d5f3a0090c441c496ada69ebd" style="width: 100.0%; height: 100.0%;">Black Spot: Bannerghatta Road (0.74)</div>`)[0];
+                popup_91977e33ec62b21d9cc62439196e05a2.setContent(html_ddc7154d5f3a0090c441c496ada69ebd);
+            
+        
+
+        circle_marker_f44a3210c7251a3e60c26bb11f116611.bindPopup(popup_91977e33ec62b21d9cc62439196e05a2)
+        ;
+
+        
+    
+    
+            var circle_marker_db66ce584af6013b6e81ca1d11086e22 = L.circleMarker(
+                [12.936, 77.697],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_d22fda58dcbf65db7d818a0f743e8a68 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c56433a1b13bda756418050e50bdb31d = $(`<div id="html_c56433a1b13bda756418050e50bdb31d" style="width: 100.0%; height: 100.0%;">Black Spot: Outer Ring Road Kadubeesanahalli (0.77)</div>`)[0];
+                popup_d22fda58dcbf65db7d818a0f743e8a68.setContent(html_c56433a1b13bda756418050e50bdb31d);
+            
+        
+
+        circle_marker_db66ce584af6013b6e81ca1d11086e22.bindPopup(popup_d22fda58dcbf65db7d818a0f743e8a68)
+        ;
+
+        
+    
+    
+            var circle_marker_73c3cce36ae9bbcdb5f13082d44aa208 = L.circleMarker(
+                [13.044, 77.613],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.5, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+        var popup_caaa3afe4c83ed90e9e96829548326de = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1c73e5d27f43274099647692772f38dc = $(`<div id="html_1c73e5d27f43274099647692772f38dc" style="width: 100.0%; height: 100.0%;">Black Spot: Nagawara Junction (0.73)</div>`)[0];
+                popup_caaa3afe4c83ed90e9e96829548326de.setContent(html_1c73e5d27f43274099647692772f38dc);
+            
+        
+
+        circle_marker_73c3cce36ae9bbcdb5f13082d44aa208.bindPopup(popup_caaa3afe4c83ed90e9e96829548326de)
+        ;
+
+        
+    
+    
+            var marker_1c0070810d0b016b07b96f82d2cad38d = L.marker(
+                [12.945944, 77.567404],
+                {
+}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+            var icon_7b23bc10f93ed3bdc0709b701907f1f4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgreen",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0853641995e02b15180e088b43c3fa46 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6220ab5c8b4dac998aada32e1ae02b32 = $(`<div id="html_6220ab5c8b4dac998aada32e1ae02b32" style="width: 100.0%; height: 100.0%;">Shekhar Hospital<br>ETA: 1.1 min</div>`)[0];
+                popup_0853641995e02b15180e088b43c3fa46.setContent(html_6220ab5c8b4dac998aada32e1ae02b32);
+            
+        
+
+        marker_1c0070810d0b016b07b96f82d2cad38d.bindPopup(popup_0853641995e02b15180e088b43c3fa46)
+        ;
+
+        
+    
+    
+                marker_1c0070810d0b016b07b96f82d2cad38d.setIcon(icon_7b23bc10f93ed3bdc0709b701907f1f4);
+            
+    
+            var marker_fae3c8e2a07d4cc010248b57d7a66fe3 = L.marker(
+                [12.941285, 77.567543],
+                {
+}
+            ).addTo(map_d270f48c2941ab5813921922fae79927);
+        
+    
+            var icon_4935dae536eeb673e4bb9d33c97c5b4a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgreen",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b8f7a718620c64fa4be289a4c94df9d3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cdc7676e72ac0662d883f2de64e52ff9 = $(`<div id="html_cdc7676e72ac0662d883f2de64e52ff9" style="width: 100.0%; height: 100.0%;">BMS Hospital<br>ETA: 4.1 min</div>`)[0];
+                popup_b8f7a718620c64fa4be289a4c94df9d3.setContent(html_cdc7676e72ac0662d883f2de64e52ff9);
+            
+        
+
+        marker_fae3c8e2a07d4cc010248b57d7a66fe3.bindPopup(popup_b8f7a718620c64fa4be289a4c94df9d3)
+        ;
+
+        
+    
+    
+                marker_fae3c8e2a07d4cc010248b57d7a66fe3.setIcon(icon_4935dae536eeb673e4bb9d33c97c5b4a);
+            
+</script>
+</html>

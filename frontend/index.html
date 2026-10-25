@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA — Accident Understanding & Response Assistant</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root {
+    --bg:        #0B0E11;
+    --panel:     #12161B;
+    --panel-2:   #191E25;
+    --border:    #262C34;
+    --text:      #E6E9ED;
+    --text-dim:  #8A93A0;
+    --text-mute: #545C68;
+    --amber:     #F2A93B;
+    --red:       #E6483E;
+    --red-dim:   #4A1F1D;
+    --green:     #33C481;
+    --green-dim: #133226;
+    --blue:      #3B82F2;
+    --mono: 'JetBrains Mono', 'Consolas', monospace;
+    --sans: -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    grid-template-rows: 56px 1fr;
+    height: 100vh;
+  }
+
+  /* ── Top bar ───────────────────────────────────────────── */
+  .topbar {
+    grid-column: 1 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+  }
+  .brand .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+  }
+  .brand .sub {
+    color: var(--text-mute);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: 4px;
+  }
+  .statusline {
+    display: flex; gap: 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .statusline span b { color: var(--text); font-weight: 500; }
+
+  /* ── Left panel ────────────────────────────────────────── */
+  .panel {
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 18px 18px 40px;
+  }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin: 20px 0 10px;
+    font-weight: 600;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .field { margin-bottom: 12px; }
+  .field label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+  }
+  .field select, .field input {
+    width: 100%;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: var(--sans);
+  }
+  .field select:focus, .field input:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .time-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .time-row select {
+    width: 100%;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: var(--sans);
+    cursor: pointer;
+  }
+
+  .time-row select:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+
+  .time-separator {
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .coord-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 4px;
+  }
+  .coord-box .field { margin-bottom: 0; }
+  .preset-row {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .preset-chip {
+    font-size: 11px;
+    padding: 4px 9px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: var(--sans);
+  }
+  .preset-chip:hover { border-color: var(--blue); color: var(--text); }
+
+  .analyze-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 13px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .analyze-btn:hover { background: #d13b32; }
+  .analyze-btn:disabled { background: var(--border); color: var(--text-mute); cursor: wait; }
+
+  .analyze-btn .spinner {
+    display: none;
+    width: 13px; height: 13px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  .analyze-btn.loading .spinner { display: inline-block; }
+  .analyze-btn.loading .btn-text { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Result cards ──────────────────────────────────────── */
+  .result-area { margin-top: 20px; }
+  .risk-card {
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+  }
+  .risk-card.critical { border-color: var(--red); background: linear-gradient(180deg, var(--red-dim), var(--panel-2) 60%); }
+  .risk-card.low      { border-color: var(--green); background: linear-gradient(180deg, var(--green-dim), var(--panel-2) 60%); }
+
+  .risk-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .risk-level {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .risk-level.critical { color: var(--red); }
+  .risk-level.high     { color: var(--amber); }
+  .risk-level.moderate { color: var(--amber); }
+  .risk-level.low      { color: var(--green); }
+
+  .risk-score {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 600;
+    margin: 6px 0 4px;
+  }
+  .risk-action { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; }
+
+  .dispatch-card {
+    margin-top: 12px;
+    border-radius: 8px;
+    padding: 14px 16px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+  }
+  .dispatch-card .dh-label {
+    font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-mute); margin-bottom: 8px; font-weight: 600;
+  }
+  .dispatch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .dispatch-row .k { color: var(--text-dim); }
+  .dispatch-row .v { font-family: var(--mono); font-weight: 500; }
+  .dispatch-row .v.eta { color: var(--amber); font-size: 15px; }
+
+  .no-dispatch {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-mute);
+    padding: 10px 12px;
+    background: var(--panel-2);
+    border-radius: 6px;
+    border: 1px dashed var(--border);
+  }
+
+  .error-box {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--red-dim);
+    border: 1px solid var(--red);
+    border-radius: 6px;
+    font-size: 12px;
+    color: #f5b8b4;
+  }
+
+  /* ── Map ───────────────────────────────────────────────── */
+  #map { width: 100%; height: 100%; background: var(--bg); }
+  .leaflet-container { background: #14181d; font-family: var(--sans); }
+  .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9); }
+  .leaflet-marker-icon, .leaflet-popup, .leaflet-control { filter: none; }
+
+  .legend {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 11px;
+    color: var(--text-dim);
+    z-index: 500;
+    line-height: 1.9;
+  }
+  .legend .lg-item { display: flex; align-items: center; gap: 8px; }
+  .legend .sw { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      AURA <span class="sub">Accident Understanding & Response Assistant</span>
+    </div>
+    <div class="statusline">
+      <span>API <b id="api-status">checking…</b></span>
+      <span>Graph nodes <b>155,543</b></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="section-label">Scenario</div>
+
+    <div class="row2">
+      <div class="field">
+        <label>State</label>
+        <select id="state"><option>Karnataka</option><option>Tamil Nadu</option><option>Maharashtra</option><option>Uttar Pradesh</option></select>
+      </div>
+      <div class="field">
+        <label>Month</label>
+        <select id="month">
+          <option>January</option><option>February</option><option>March</option><option>April</option>
+          <option>May</option><option>June</option><option>July</option><option selected>August</option>
+          <option>September</option><option>October</option><option>November</option><option>December</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Day of week</label>
+        <select id="day">
+          <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option>
+          <option selected>Friday</option><option>Saturday</option><option>Sunday</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Time (24hr)</label>
+        <div class="time-row">
+          <select id="time-hour" aria-label="Hour">
+            <option value="00">00</option>
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23" selected>23</option>
+          </select>
+          <span class="time-separator">:</span>
+          <select id="time-minute" aria-label="Minute">
+            <option value="00">00</option>
+            <option value="15" selected>15</option>
+            <option value="30">30</option>
+            <option value="45">45</option>
+          </select>
+          <input type="hidden" id="time" value="23:15">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Conditions</div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Weather</label>
+        <select id="weather"><option selected>Rainy</option><option>Clear</option><option>Foggy</option><option>Mist</option><option>Hailstorm</option><option>Dust Storm</option></select>
+      </div>
+      <div class="field">
+        <label>Road type</label>
+        <select id="roadtype"><option selected>National Highway</option><option>State Highway</option><option>District Road</option><option>Village Road</option><option>City Road</option></select>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Road condition</label>
+        <select id="roadcond"><option selected>Poor</option><option>Fair</option><option>Good</option><option>Under Repair</option></select>
+      </div>
+      <div class="field">
+        <label>Lighting</label>
+        <select id="lighting"><option>Daylight</option><option>Dawn/Dusk</option><option>Night - Street Lights On</option><option selected>Night - Street Lights Off</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Traffic control present</label>
+      <select id="control"><option selected>No</option><option>Yes</option></select>
+    </div>
+
+    <div class="section-label">Vehicle &amp; driver</div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Vehicle type</label>
+        <select id="vehicle"><option selected>Two-Wheeler</option><option>Car</option><option>Auto-Rickshaw</option><option>Truck</option><option>Bus</option><option>LCV</option><option>Bicycle</option></select>
+      </div>
+      <div class="field">
+        <label>Driver age</label>
+        <input type="number" id="age" value="24" min="16" max="90">
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Driver gender</label>
+        <select id="gender"><option selected>Male</option><option>Female</option></select>
+      </div>
+      <div class="field">
+        <label>License status</label>
+        <select id="license"><option selected>Invalid</option><option>Valid</option><option>Not Available</option></select>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Alcohol involved</label>
+        <select id="alcohol"><option selected>Yes</option><option>No</option></select>
+      </div>
+      <div class="field">
+        <label>Speed limit (km/h)</label>
+        <input type="number" id="speed" value="100" min="20" max="140">
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Location type</label>
+        <select id="loctype"><option>Straight Road</option><option>Curve</option><option selected>Junction</option><option>Bridge</option><option>Toll Plaza</option><option>School Zone</option></select>
+      </div>
+      <div class="field">
+        <label>Vehicles involved</label>
+        <input type="number" id="numveh" value="2" min="1" max="8">
+      </div>
+    </div>
+
+    <div class="section-label">Accident location (Bengaluru)</div>
+    <div class="coord-box">
+      <div class="field">
+        <label>Latitude</label>
+        <input type="number" id="lat" value="12.9175" step="0.0001">
+      </div>
+      <div class="field">
+        <label>Longitude</label>
+        <input type="number" id="lng" value="77.6231" step="0.0001">
+      </div>
+    </div>
+    <div class="preset-row">
+      <button class="preset-chip" data-lat="12.9175" data-lng="77.6231">Silk Board</button>
+      <button class="preset-chip" data-lat="13.0350" data-lng="77.5970">Hebbal</button>
+      <button class="preset-chip" data-lat="12.9591" data-lng="77.6971">Marathahalli</button>
+      <button class="preset-chip" data-lat="13.0050" data-lng="77.6940">KR Puram</button>
+      <button class="preset-chip" data-lat="12.9352" data-lng="77.6245">Koramangala</button>
+    </div>
+
+    <button class="analyze-btn" id="analyzeBtn">
+      <span class="spinner"></span>
+      <span class="btn-text">Run analysis</span>
+    </button>
+
+    <div class="result-area" id="resultArea"></div>
+  </div>
+
+  <div style="position: relative;">
+    <div id="map"></div>
+    <div class="legend">
+      <div class="lg-item"><span class="sw" style="background:#E6483E"></span> Accident</div>
+      <div class="lg-item"><span class="sw" style="background:#33C481"></span> Hospital dispatched</div>
+      <div class="lg-item"><span class="sw" style="background:#F2A93B"></span> Black spot</div>
+      <div class="lg-item"><span class="sw" style="background:#3B82F2"></span> Route</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API_BASE = "http://127.0.0.1:8000";
+
+const map = L.map('map', { zoomControl: true }).setView([12.9716, 77.5946], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors',
+  maxZoom: 19,
+}).addTo(map);
+
+let accidentMarker = null, hospitalMarker = null, routeLine = null, blackSpotLayer = L.layerGroup().addTo(map);
+
+function pulseIcon(color) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="width:16px;height:16px;border-radius:50%;background:${color};border:2px solid #0B0E11;box-shadow:0 0 0 4px ${color}33"></div>`,
+    iconSize: [16,16], iconAnchor: [8,8],
+  });
+}
+
+async function loadBlackSpots() {
+  try {
+    const res = await fetch(`${API_BASE}/blackspots`);
+    const spots = await res.json();
+    blackSpotLayer.clearLayers();
+    Object.entries(spots).forEach(([name, s]) => {
+      L.circleMarker([s.lat, s.lng], {
+        radius: 6, color: '#F2A93B', fillColor: '#F2A93B', fillOpacity: 0.55, weight: 1,
+      }).bindPopup(`<b>${name}</b><br>Risk score: ${s.risk}`).addTo(blackSpotLayer);
+    });
+  } catch (e) { /* API not up yet */ }
+}
+
+async function checkHealth() {
+  const el = document.getElementById('api-status');
+  try {
+    const res = await fetch(`${API_BASE}/health`);
+    const data = await res.json();
+    el.textContent = data.status === 'ok' ? 'online (' + data.device + ')' : 'error';
+    el.style.color = data.status === 'ok' ? '#33C481' : '#E6483E';
+    if (data.status === 'ok') loadBlackSpots();
+  } catch (e) {
+    el.textContent = 'offline';
+    el.style.color = '#E6483E';
+  }
+}
+checkHealth();
+setInterval(checkHealth, 15000);
+
+function syncTimeValue() {
+  const hour = document.getElementById('time-hour').value;
+  const minute = document.getElementById('time-minute').value;
+  document.getElementById('time').value = `${hour}:${minute}`;
+}
+
+document.getElementById('time-hour').addEventListener('change', syncTimeValue);
+document.getElementById('time-minute').addEventListener('change', syncTimeValue);
+syncTimeValue();
+
+document.querySelectorAll('.preset-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('lat').value = btn.dataset.lat;
+    document.getElementById('lng').value = btn.dataset.lng;
+  });
+});
+
+function buildPayload() {
+  return {
+    scenario: {
+      "State Name": document.getElementById('state').value,
+      "Month": document.getElementById('month').value,
+      "Day of Week": document.getElementById('day').value,
+      "Time of Day": document.getElementById('time').value,
+      "Weather Conditions": document.getElementById('weather').value,
+      "Road Type": document.getElementById('roadtype').value,
+      "Road Condition": document.getElementById('roadcond').value,
+      "Lighting Conditions": document.getElementById('lighting').value,
+      "Vehicle Type Involved": document.getElementById('vehicle').value,
+      "Traffic Control Presence": document.getElementById('control').value,
+      "Accident Location Details": document.getElementById('loctype').value,
+      "Alcohol Involvement": document.getElementById('alcohol').value,
+      "Driver License Status": document.getElementById('license').value,
+      "Driver Gender": document.getElementById('gender').value,
+      "Speed Limit (km/h)": parseInt(document.getElementById('speed').value),
+      "Driver Age": parseInt(document.getElementById('age').value),
+      "Number of Vehicles Involved": parseInt(document.getElementById('numveh').value),
+    },
+    lat: parseFloat(document.getElementById('lat').value),
+    lng: parseFloat(document.getElementById('lng').value),
+  };
+}
+
+function renderResult(data) {
+  const area = document.getElementById('resultArea');
+  const level = data.risk.risk_level.toLowerCase();
+  const cardClass = level === 'critical' ? 'critical' : (level === 'low' ? 'low' : '');
+
+  let html = `
+    <div class="risk-card ${cardClass}">
+      <div class="risk-top">
+        <span class="risk-level ${level}">${data.risk.risk_level} risk</span>
+      </div>
+      <div class="risk-score">${(data.risk.risk_score * 100).toFixed(1)}%</div>
+      <div class="risk-action">${data.risk.action}</div>
+    </div>
+  `;
+
+  if (data.dispatched && data.routing) {
+    html += `
+      <div class="dispatch-card">
+        <div class="dh-label">Emergency dispatch</div>
+        <div class="dispatch-row"><span class="k">Hospital</span><span class="v">${data.routing.hospital}</span></div>
+        <div class="dispatch-row"><span class="k">ETA</span><span class="v eta">${data.routing.eta_minutes} min</span></div>
+        <div class="dispatch-row"><span class="k">Distance</span><span class="v">${data.routing.distance_km} km</span></div>
+        <div class="dispatch-row"><span class="k">Ambulances available</span><span class="v">${data.routing.ambulances}</span></div>
+      </div>
+    `;
+  } else {
+    html += `<div class="no-dispatch">Risk below dispatch threshold (0.70) — logged for heatmap only, no routing triggered.</div>`;
+  }
+
+  area.innerHTML = html;
+}
+
+function drawOnMap(payload, data) {
+  if (accidentMarker) map.removeLayer(accidentMarker);
+  if (hospitalMarker) map.removeLayer(hospitalMarker);
+  if (routeLine) map.removeLayer(routeLine);
+
+  accidentMarker = L.marker([payload.lat, payload.lng], { icon: pulseIcon('#E6483E') })
+    .bindPopup(`<b>Accident</b><br>Risk: ${(data.risk.risk_score*100).toFixed(1)}%`)
+    .addTo(map);
+
+  if (data.dispatched && data.routing) {
+    const coords = data.routing.coordinates;
+    const hospitalPos = coords[0];
+    hospitalMarker = L.marker(hospitalPos, { icon: pulseIcon('#33C481') })
+      .bindPopup(`<b>${data.routing.hospital}</b><br>ETA ${data.routing.eta_minutes} min`)
+      .addTo(map);
+
+    routeLine = L.polyline(coords, { color: '#3B82F2', weight: 4, opacity: 0.85 }).addTo(map);
+    map.fitBounds(routeLine.getBounds(), { padding: [60, 60] });
+  } else {
+    map.setView([payload.lat, payload.lng], 14);
+  }
+}
+
+document.getElementById('analyzeBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('analyzeBtn');
+  const area = document.getElementById('resultArea');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  area.innerHTML = '';
+
+  const payload = buildPayload();
+
+  try {
+    const res = await fetch(`${API_BASE}/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'Request failed');
+    }
+    const data = await res.json();
+    renderResult(data);
+    drawOnMap(payload, data);
+  } catch (e) {
+    area.innerHTML = `<div class="error-box">Request failed: ${e.message}<br><br>Is the API running? Start it with: <code>python api.py</code></div>`;
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+</script>
+
+</body>
+</html>
